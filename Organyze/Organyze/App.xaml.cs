@@ -8,8 +8,8 @@ namespace Organyze
         {
             InitializeComponent();
 
-            MainPage = new Organyze.MainPage();
-            //MainPage = new TodoList();
+            //MainPage = new Organyze.MainPage();
+            MainPage = new Organyze.Views.TodoList();
         }
 
         protected override void OnStart()

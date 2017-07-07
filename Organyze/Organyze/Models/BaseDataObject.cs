@@ -1,6 +1,7 @@
 ﻿using System;
 using Organyze.Helpers;
 using Organyze.Interfaces;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace Organyze.Models
 {
@@ -29,6 +30,7 @@ namespace Organyze.Models
         /// <summary>
         /// Azure version for online/offline sync
         /// </summary>
-        public string AzureVersion { get; set; }
+        [Version]
+        public string Version { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
-namespace opentask
+namespace Organyze.Models
 {
     public class TodoItem
     {

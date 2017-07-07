@@ -3,6 +3,7 @@
     public interface IBaseDataObject
     {
         string Id { get; }
+        string Version { get; set; }
     }
 }
 
