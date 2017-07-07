@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Organyze
 {
@@ -14,6 +9,7 @@ namespace Organyze
             InitializeComponent();
 
             MainPage = new Organyze.MainPage();
+            //MainPage = new TodoList();
         }
 
         protected override void OnStart()
