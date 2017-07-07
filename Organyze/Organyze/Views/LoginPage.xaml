@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Organyze.Views.LoginPage"
+             Title="Entrar"
+             >
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <StackLayout Padding="10,110,10,50" Spacing="15"  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Entry  Text="{Binding Email}" VerticalOptions="Center" Keyboard="Email"   Placeholder="email@server.com"></Entry>
+            <Entry  Text="{Binding Senha}" VerticalOptions="Center" IsPassword="True"  Placeholder="Senha"></Entry>
+            <Button Text="Login" Command="{Binding LoginCommand}" BackgroundColor="{StaticResource DarkStateBlue}" TextColor="White"></Button>
+            <Button Text="Login Com Facebook"  Image="face.png" Command="{Binding LoginFacebookCommand}" TextColor="White" BackgroundColor="{StaticResource DarkStateBlue}"></Button>
+        </StackLayout>
+        <Button
+                BorderColor="Black" 
+                BackgroundColor="{StaticResource WhiteSmoke}" 
+                VerticalOptions="EndAndExpand" 
+                HorizontalOptions="FillAndExpand" 
+                Text="Não tem uma conta?  Cadastre-se." 
+                FontSize="Micro" 
+                Command="{Binding RegisterCommand}"/>
+    </Grid>
+</ContentPage>

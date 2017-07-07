@@ -1,4 +1,5 @@
 ﻿using Organyze.Helpers;
+using Organyze.Views;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -27,8 +28,8 @@ namespace Organyze
             }
             else
             {
-                Current.MainPage = new NavigationPage(new Views.MainPage());
-                //Current.MainPage = new NavigationPage(new LoginPage());
+                //Current.MainPage = new NavigationPage(new Views.MainPage());
+                Current.MainPage = new NavigationPage(new LoginPage());
             }
 
             //within IMethods PCL class

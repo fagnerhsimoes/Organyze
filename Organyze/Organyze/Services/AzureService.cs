@@ -9,7 +9,7 @@ namespace Organyze.Services
 {
     public class AzureService
     {
-        static readonly string AppUrl = @"https://organyze.azurewebsites.net";
+        static readonly string AppUrl = @"https://organyze.azurewebsites.net/";
         public MobileServiceClient Client { get; set; } = null;
 
         public void Initialize()

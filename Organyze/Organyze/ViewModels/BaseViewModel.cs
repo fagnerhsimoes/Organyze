@@ -14,8 +14,8 @@ namespace Organyze.ViewModels
         public IDataOrdemServico<IOrdemServico> DataOrdemServico => DependencyService.Get<IDataOrdemServico<IOrdemServico>>();
         public IDataCategoria<ICategoria> DataCategoria => DependencyService.Get<IDataCategoria<ICategoria>>();
         public IDataCategoria<ICategoria> ApiCategoria => DependencyService.Get<IDataCategoria<ICategoria>>();
-        public IDataDepartamento<IDepartamento> DataDepartamento => DependencyService.Get<IDataDepartamento<IDepartamento>>();
-        public IDataProjeto<Projeto> DataProjeto => DependencyService.Get<IDataProjeto<Projeto>>();*/
+        public IDataDepartamento<IDepartamento> DataDepartamento => DependencyService.Get<IDataDepartamento<IDepartamento>>();*/
+        public IDataProjeto<Projeto> DataProjeto => DependencyService.Get<IDataProjeto<Projeto>>();
 
         bool isBusy = false;
         public bool IsBusy

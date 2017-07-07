@@ -6,27 +6,27 @@ namespace Organyze.Views.Services
     {
         public async Task NavigationToLogin()
         {
-       //     await App.NavigationMasterDetail(new LoginPage());
+            await App.NavigationMasterDetail(new LoginPage());
         }
 
         public async Task NavigationVoltarToLogin()
         {
-      //      await App.Current.MainPage.Navigation.PushAsync(new LoginPage());
+            await App.Current.MainPage.Navigation.PushAsync(new LoginPage());
         }
 
         public async Task NavigationToMain()
         {
-       //     await App.NavigationMasterDetail(new MainPage());
+            await App.NavigationMasterDetail(new MainPage());
         }
 
         public async Task NavigationVoltarToMain()
         {
-      //      await App.Current.MainPage.Navigation.PopToRootAsync();
+            await App.Current.MainPage.Navigation.PopToRootAsync();
         }
 
         public async Task NavigationToRegister()
         {
-      //      await App.Current.MainPage.Navigation.PushAsync(new RegisterPage());
+            await App.Current.MainPage.Navigation.PushAsync(new RegisterPage());
         }
 
         public async Task NavigationToItemsPage()
@@ -46,7 +46,7 @@ namespace Organyze.Views.Services
 
         public async Task NavigationToSobre()
         {
-      //      await App.NavigationMasterDetail(new AboutPage());
+            await App.NavigationMasterDetail(new AboutPage());
         }
 
         public async Task NavigationToOrdemServicoPage(string Status)
@@ -56,12 +56,12 @@ namespace Organyze.Views.Services
 
         public async Task NavigationToProjetoPage()
         {
-      //      await App.NavigationMasterDetail(new ProjetoPage());
+            await App.NavigationMasterDetail(new ProjetoPage());
         }
 
         public async Task NavigationVoltar()
         {
-     //       await App.Current.MainPage.Navigation.PopAsync();
+            await App.Current.MainPage.Navigation.PopAsync();
         }
 
         public async Task NavigationToNewFuncionario()

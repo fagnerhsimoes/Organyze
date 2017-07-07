@@ -7,7 +7,7 @@ namespace Organyze.Views
         public MasterPage()
         {
             InitializeComponent();
-           // BindingContext = new ViewModels.MasterViewModel();
+            BindingContext = new ViewModels.MasterViewModel();
         }
 
         protected override void OnAppearing()

@@ -4,17 +4,12 @@ using Xamarin.Forms.Xaml;
 namespace Organyze.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : MasterDetailPage
+    public partial class LoginPage : ContentPage
     {
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
-            BindingContext = new ViewModels.MainViewModel();
-
-            Master = new MasterPage();
-            Detail = new TodoList();
-        //    Detail = App.GetMainPage();
-            App.MasterDetail = this;
+            BindingContext = new ViewModels.LoginViewModel();
         }
 
         protected override void OnAppearing()
@@ -23,5 +18,4 @@ namespace Organyze.Views
         }
     }
 }
-
 

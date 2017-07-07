@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Organyze.Views.ProjetoDetailPage" 
+             Title="{Binding Title}"
+             >
+    <ScrollView>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <Image Source="logo.png" VerticalOptions="Start" HorizontalOptions="StartAndExpand"/>
+            <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
+                <Label Text="{Binding Projeto.Nome}"
+                       FontSize="Large"
+                       FontAttributes="Bold" />
+                <Label Text="{Binding Projeto.Descricao}"
+                       FontSize="Medium" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

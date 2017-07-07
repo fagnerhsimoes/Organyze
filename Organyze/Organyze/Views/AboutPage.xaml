@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Organyze.Views.AboutPage"
+             xmlns:vm="clr-namespace:Organyze.ViewModels;"
+             Title="{Binding Title}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackLayout BackgroundColor="{StaticResource PrimaryDark}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
+            <ContentView Padding="0,0,0,0" VerticalOptions="FillAndExpand">
+                <Image Source="logo.png" VerticalOptions="Start" HorizontalOptions="StartAndExpand"/>
+            </ContentView>
+        </StackLayout>
+        <ScrollView Grid.Row="1">
+            <StackLayout Orientation="Vertical" Padding="16,40,16,40" Spacing="10">
+                <Label FontSize="22">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Prototipo" FontAttributes="Bold" FontSize="22"/>
+                                <Span Text=" "/>
+                                <Span Text="1.0" ForegroundColor="{StaticResource LightTextColor}"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Aplicativo desenvolvido com objetivo de auxilizar na " />
+                                <Span Text=" "/>
+                                <Span Text="Gestão de Tarefas e Ordem de serviços da organização/empresa." />
+                                <Span Text=" "/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Este aplicativo está escrito em C#, utilizando" />
+                                <Span Text=" "/>
+                                <Span Text="Realm, Azure Mobile Apps, além de APIs nativas usando a" />
+                                <Span Text=" "/>
+                                <Span Text="Plataforma Xamarin" FontAttributes="Bold" />
+                                <Span Text="." />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Ele compartilha código com versões do" />
+                                <Span Text=" "/>
+                                <Span Text="iOS, Android, and Windows" FontAttributes="Bold" />
+                                <Span Text=" "/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Button Margin="0,10,0,0"
+                Text="Saiba Mais sobre Xamarin" 
+                Command="{Binding OpenWebCommand}"
+                BackgroundColor="{StaticResource DarkStateBlue}"
+                TextColor="White"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
