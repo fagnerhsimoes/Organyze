@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Methods\IMethods.cs" />
     <Compile Include="Models\BaseDataObject.cs" />
+    <Compile Include="Models\Departamento.cs" />
     <Compile Include="Models\Projeto.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,9 +65,12 @@
     <Compile Include="Services\TodoItemManager.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\DepartamentoDetailViewModel.cs" />
+    <Compile Include="ViewModels\DepartamentoViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MasterViewModel.cs" />
+    <Compile Include="ViewModels\NewDepartamentoViewModel.cs" />
     <Compile Include="ViewModels\ProjetoDetailViewModel.cs" />
     <Compile Include="ViewModels\ProjetoViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
@@ -74,6 +78,12 @@
     <Compile Include="ViewModels\Services\INavigationService.cs" />
     <Compile Include="Views\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DepartamentoDetailPage.xaml.cs">
+      <DependentUpon>DepartamentoDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DepartamentoPage.xaml.cs">
+      <DependentUpon>DepartamentoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -83,6 +93,9 @@
     </Compile>
     <Compile Include="Views\MasterPage.xaml.cs">
       <DependentUpon>MasterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewDepartamentoPage.xaml.cs">
+      <DependentUpon>NewDepartamentoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewProjetoPage.xaml.cs">
       <DependentUpon>NewProjetoPage.xaml</DependentUpon>
@@ -222,6 +235,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\NewProjetoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\DepartamentoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\DepartamentoDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\NewDepartamentoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

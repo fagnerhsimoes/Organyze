@@ -91,17 +91,17 @@ namespace Organyze.Views.Services
 
         public async Task NavigationToNewCategoria()
         {
-      //      await App.NavigationMasterDetail(new NewCategoriaPage());
+         //   await App.NavigationMasterDetail(new NewCategoriaPage());
         }
 
         public async Task NavigationToDepartamentoPage()
         {
-       //     await App.NavigationMasterDetail(new DepartamentoPage());
+            await App.NavigationMasterDetail(new DepartamentoPage());
         }
 
         public async Task NavigationToNewDepartamento()
         {
-      //      await App.NavigationMasterDetail(new NewDepartamentoPage());
+            await App.NavigationMasterDetail(new NewDepartamentoPage());
         }
     }
 }
