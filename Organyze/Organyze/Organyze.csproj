@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AzureService.cs" />
     <Compile Include="Services\DataProjeto.cs" />
+    <Compile Include="Services\DepartamentoManager.cs" />
     <Compile Include="Services\IDataProjeto.cs" />
     <Compile Include="Services\TodoItemManager.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />

@@ -18,14 +18,14 @@ namespace Organyze.Models
             set { id = value; }
         }
 
-        [JsonProperty(PropertyName = "Nome")]
+        [JsonProperty(PropertyName = "nome")]
         public string Nome
         {
             get { return nome; }
             set { nome = value; }
         }
 
-        [JsonProperty(PropertyName = "Apagado")]
+        [JsonProperty(PropertyName = "apagado")]
         public bool Apagado
         {
             get { return apagado; }

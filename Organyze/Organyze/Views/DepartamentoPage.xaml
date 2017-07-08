@@ -1,39 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Organyze.Views.DepartamentoPage"
-             xmlns:control="clr-namespace:Organyze.Controls;assembly=Organyze"  
-             Title="{Binding Title}"
-             x:Name="DepartamentosPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Adicionar" Command="{Binding AddDepartamentoCommand}" Order="Secondary" Priority="1"/>
-    </ContentPage.ToolbarItems>
-    <ContentPage.Content>
-        <StackLayout Padding="5,20,5,5">
-            <SearchBar x:Name="busca" Placeholder="Buscar..." ></SearchBar>
-            <ListView  x:Name="DepartamentosListView" 
-                   ItemsSource="{Binding Departamentos}"
-		           IsGroupingEnabled="true" 
-		           GroupDisplayBinding="{Binding Key}"
-                   GroupShortNameBinding="{Binding Key}"
-                   VerticalOptions="FillAndExpand"
-                   HasUnevenRows="true"
-                   RefreshCommand="{Binding LoadDepartamentosCommand}"
-                   IsPullToRefreshEnabled="true"
-                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                   ItemSelected="OnDepartamentoSelected">>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10" Orientation="Vertical">
-                                <Label Text="{Binding Nome}"
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 	xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+				x:Class="Organyze.Views.DepartamentoPage"
+				Title="Departamento no Azure">
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ActivityIndicator Grid.RowSpan="2"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       IsVisible="False"
+                       IsEnabled="True"
+                       x:Name="syncIndicator"/>
+        <StackLayout Grid.Row="0" BackgroundColor="#5ABAFF" Padding="10,30,10,5">
+            <Label TextColor="#555555" Text="Azure App Service" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="newItemName"
+                  Placeholder="Nome do Departamento" />
+                <StackLayout x:Name="buttonsPanel" Grid.Column="1" Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                    <Button Text="+"
+                  MinimumHeightRequest="30"
+                  Clicked="OnAdd" />
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+        <ListView x:Name="DepartamentosListView"
+				ItemSelected="OnDepartamentoSelected"
+				IsPullToRefreshEnabled="true" 
+                Refreshing="OnRefresh"
+				Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="OnComplete" Text="Complete" CommandParameter="{Binding .}"/>
+                        </ViewCell.ContextActions>
+                        <StackLayout Padding="10" Orientation="Vertical">
+                            <Label Text="{Binding Nome}"
 							   FontSize="Medium"                   
                                TextColor="Black"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
-    </ContentPage.Content>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </ContentPage>

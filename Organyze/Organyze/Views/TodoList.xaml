@@ -32,7 +32,8 @@
         </StackLayout>
         <ListView x:Name="todoList"
 				ItemSelected="OnSelected"
-				IsPullToRefreshEnabled="true" Refreshing="OnRefresh"
+				IsPullToRefreshEnabled="true" 
+                Refreshing="OnRefresh"
 				Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
