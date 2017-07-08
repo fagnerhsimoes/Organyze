@@ -7,11 +7,15 @@ namespace Organyze.Models
     public class Departamento
     {
 
-        private string id      { get; set; } = Guid.NewGuid().ToString();
+       /* private string id      { get; set; } = Guid.NewGuid().ToString();
         private string nome    { get; set; }
-        private bool   apagado { get; set; }
+        private bool   apagado { get; set; }*/
 
-        [JsonProperty(PropertyName = "Id")]
+        string id;
+        string nome;
+        bool   apagado;
+
+        [JsonProperty(PropertyName = "id")]
         public string Id
         {
             get { return id; }

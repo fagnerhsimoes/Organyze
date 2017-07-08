@@ -32,9 +32,9 @@ namespace Organyze.Services
         MobileServiceClient client;
 
 #if OFFLINE_SYNC_ENABLED
-        IMobileServiceSyncTable<Departamento> departamento;
+        IMobileServiceSyncTable<Departamento> todoTable;
 #else
-        IMobileServiceTable<Departamento> departamento;
+        IMobileServiceTable<TodoItem> todoTable;
 #endif
 
         const string offlineDbPath = @"localstore.db";
@@ -50,9 +50,9 @@ namespace Organyze.Services
             //Initializes the SyncContext using the default IMobileServiceSyncHandler.
             this.client.SyncContext.InitializeAsync(store);
 
-            this.departamento = client.GetSyncTable<Departamento>();
+            this.todoTable = client.GetSyncTable<Departamento>();
 #else
-            this.departamento = client.GetTable<Departamento>();
+            this.todoTable = client.GetTable<TodoItem>();
 #endif
         }
 
@@ -75,24 +75,24 @@ namespace Organyze.Services
 
         public bool IsOfflineEnabled
         {
-            get { return departamento is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<Departamento>; }
+            get { return todoTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<Departamento>; }
         }
 
-        public async Task<ObservableCollection<Departamento>> GetDepartamentosAsync(bool syncDepartamentos = false)
+        public async Task<ObservableCollection<Departamento>> GetTodoItemsAsync(bool syncItems = false)
         {
             try
             {
 #if OFFLINE_SYNC_ENABLED
-                if (syncDepartamentos)
+                if (syncItems)
                 {
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<Departamento> departamentos = await departamento
-                    .Where(departamento => !departamento.Apagado)
+                IEnumerable<Departamento> items = await todoTable
+                    .Where(todoItem => !todoItem.Apagado)
                     .ToEnumerableAsync();
 
-                return new ObservableCollection<Departamento>(departamentos);
+                return new ObservableCollection<Departamento>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -105,15 +105,15 @@ namespace Organyze.Services
             return null;
         }
 
-        public async Task SaveTaskAsync(Departamento departament)
+        public async Task SaveTaskAsync(Departamento item)
         {
-            if (departament.Id == null)
+            if (item.Id == null)
             {
-                await departamento.InsertAsync(departament);
+                await todoTable.InsertAsync(item);
             }
             else
             {
-                await departamento.UpdateAsync(departament);
+                await todoTable.UpdateAsync(item);
             }
         }
 
@@ -126,11 +126,11 @@ namespace Organyze.Services
             {
                 await this.client.SyncContext.PushAsync();
 
-                await this.departamento.PullAsync(
+                await this.todoTable.PullAsync(
                     //The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
                     //Use a different query name for each unique query in your program
-                    "Todos Departamentos",
-                    this.departamento.CreateQuery());
+                    "allTodoItems",
+                    this.todoTable.CreateQuery());
             }
             catch (MobileServicePushFailedException exc)
             {
@@ -157,7 +157,7 @@ namespace Organyze.Services
                         await error.CancelAndDiscardItemAsync();
                     }
 
-                    Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["Id"]);
+                    Debug.WriteLine(@"Error executing sync operation. Item: {0} ({1}). Operation discarded.", error.TableName, error.Item["id"]);
                 }
             }
         }

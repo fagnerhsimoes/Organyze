@@ -1,38 +1,30 @@
-﻿using System.Collections.Generic;
-using Xamarin.Forms;
-using Organyze.ViewModels;
-using Organyze.Controls;
-using System.Linq;
-using Organyze.Interfaces;
-using Organyze.Models;
+﻿using Organyze.Models;
 using Organyze.Services;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Organyze.Views
 {
     public partial class DepartamentoPage : ContentPage
     {
         DepartamentoManager manager;
-        DepartamentoViewModel viewModel;
+
         public DepartamentoPage()
         {
             InitializeComponent();
-          //  BindingContext = viewModel = new DepartamentoViewModel();
-
-         //   busca.TextChanged += Busca_TextChanged;
-            // DepartamentosListView.ItemsSource = Listar();
 
             manager = DepartamentoManager.DefaultManager;
+
             if (manager.IsOfflineEnabled &&
                 (Device.OS == TargetPlatform.Windows || Device.OS == TargetPlatform.WinPhone))
             {
                 var syncButton = new Button
                 {
-                    Text = "Sincronizar Departamentos",
+                    Text = "Sync items",
                     HeightRequest = 30
                 };
-                syncButton.Clicked += OnSyncDepartamentos;
+                syncButton.Clicked += OnSyncItems;
 
                 buttonsPanel.Children.Add(syncButton);
             }
@@ -43,55 +35,99 @@ namespace Organyze.Views
             base.OnAppearing();
 
             // Set syncItems to true in order to synchronize the data on startup when running in offline mode
-            await RefreshDepartamentos(true, syncDepartamentos: true);
+            await RefreshItems(true, syncItems: true);
         }
 
-        async void OnDepartamentoSelected(object sender, SelectedItemChangedEventArgs args)
+        // Data methods
+        async Task AddItem(Departamento item)
         {
-            var departamento = args.SelectedItem as Departamento;
-            if (departamento == null)
-                return;
+            await manager.SaveTaskAsync(item);
+            DepartamentosListView.ItemsSource = await manager.GetTodoItemsAsync();
+        }
 
-            await Navigation.PushAsync(new DepartamentoDetailPage(new DepartamentoDetailViewModel(departamento)));
+        async Task CompleteItem(Departamento item)
+        {
+            item.Apagado = true;
+            await manager.SaveTaskAsync(item);
+            DepartamentosListView.ItemsSource = await manager.GetTodoItemsAsync();
+        }
 
+        public async void OnAdd(object sender, EventArgs e)
+        {
+            var todo = new Departamento { Nome = newItemName.Text };
+            await AddItem(todo);
+
+            newItemName.Text = string.Empty;
+            newItemName.Unfocus();
+        }
+
+        // Event handlers
+        public async void OnSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var todo = e.SelectedItem as Departamento;
+            if (Device.OS != TargetPlatform.iOS && todo != null)
+            {
+                // Not iOS - the swipe-to-delete is discoverable there
+                if (Device.OS == TargetPlatform.Android)
+                {
+                    await DisplayAlert(todo.Nome, "Press-and-hold to complete task " + todo.Nome, "Got it!");
+                }
+                else
+                {
+                    // Windows, not all platforms support the Context Actions yet
+                    if (await DisplayAlert("Mark completed?", "Do you wish to complete " + todo.Nome + "?", "Complete", "Cancel"))
+                    {
+                        await CompleteItem(todo);
+                    }
+                }
+            }
+
+            // prevents background getting highlighted
             DepartamentosListView.SelectedItem = null;
         }
 
-       /* protected override void OnAppearing()
+        // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#context
+        public async void OnComplete(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            viewModel.LoadDepartamentosCommand.Execute(null);
-          //  DepartamentosListView.ItemsSource = Listar(busca.Text);
-        }*/
-
-        private void Busca_TextChanged(object sender, TextChangedEventArgs e)
-        {
-         //   DepartamentosListView.ItemsSource = Listar(busca.Text);
+            var mi = ((MenuItem)sender);
+            var todo = mi.CommandParameter as Departamento;
+            await CompleteItem(todo);
         }
 
-        /* public IEnumerable<Group<char, IDepartamento>> Listar(string filtro = "")
-         {
-             IEnumerable<IDepartamento> departamentosFiltrados = viewModel.Departamentos;
-             if (!string.IsNullOrEmpty(filtro))
-                 departamentosFiltrados = viewModel.Departamentos.Where(l => (l.Nome.ToLower().Contains(filtro.ToLower())));
-
-             return from departamento in departamentosFiltrados
-                    orderby departamento.Ativo, departamento.Nome
-                    group departamento by departamento.Nome[0] into grupos
-                    select new Group<char, IDepartamento>(grupos.Key, grupos);
-         }*/
-
-
-        public async void OnSyncDepartamentos(object sender, EventArgs e)
+        // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#pulltorefresh
+        public async void OnRefresh(object sender, EventArgs e)
         {
-            await RefreshDepartamentos(true, true);
+            var list = (ListView)sender;
+            Exception error = null;
+            try
+            {
+                await RefreshItems(false, true);
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                list.EndRefresh();
+            }
+
+            if (error != null)
+            {
+                await DisplayAlert("Refresh Error", "Couldn't refresh data (" + error.Message + ")", "OK");
+            }
         }
 
-        private async Task RefreshDepartamentos(bool showActivityIndicator, bool syncDepartamentos)
+        public async void OnSyncItems(object sender, EventArgs e)
+        {
+            await RefreshItems(true, true);
+        }
+
+        private async Task RefreshItems(bool showActivityIndicator, bool syncItems)
         {
             using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
             {
-                DepartamentosListView.ItemsSource = await manager.GetDepartamentosAsync(syncDepartamentos);
+                DepartamentosListView.ItemsSource = await manager.GetTodoItemsAsync(syncItems);
             }
         }
 
@@ -131,87 +167,6 @@ namespace Organyze.Views
                 }
             }
         }
-
-        // Data methods
-        async Task AddDepartamento(Departamento departament)
-        {
-            await manager.SaveTaskAsync(departament);
-            DepartamentosListView.ItemsSource = await manager.GetDepartamentosAsync();
-        }
-
-        async Task CompleteItem(Departamento departament)
-        {
-            departament.Apagado = true;
-            await manager.SaveTaskAsync(departament);
-            DepartamentosListView.ItemsSource = await manager.GetDepartamentosAsync();
-        }
-
-        public async void OnAdd(object sender, EventArgs e)
-        {
-            var depart = new Departamento { Nome = newItemName.Text };
-            await AddDepartamento(depart);
-
-            newItemName.Text = string.Empty;
-            newItemName.Unfocus();
-        }
-
-        // Event handlers
-        public async void OnSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var depart = e.SelectedItem as Departamento;
-            if (Device.OS != TargetPlatform.iOS && depart != null)
-            {
-                // Not iOS - the swipe-to-delete is discoverable there
-                if (Device.OS == TargetPlatform.Android)
-                {
-                    await DisplayAlert(depart.Nome, "Clique para apagar o Depatamento " + depart.Nome, "Got it!");
-                }
-                else
-                {
-                    // Windows, not all platforms support the Context Actions yet
-                    if (await DisplayAlert("Mark deleted?", "Do you wish to delete " + depart.Nome + "?", "Apagar", "Cancelar"))
-                    {
-                        await CompleteItem(depart);
-                    }
-                }
-            }
-
-            // prevents background getting highlighted
-            DepartamentosListView.SelectedItem = null;
-        }
-
-        // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#context
-        public async void OnComplete(object sender, EventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            var depart = mi.CommandParameter as Departamento;
-            await CompleteItem(depart);
-        }
-
-        // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#pulltorefresh
-        public async void OnRefresh(object sender, EventArgs e)
-        {
-            var list = (ListView)sender;
-            Exception error = null;
-            try
-            {
-                await RefreshDepartamentos(false, true);
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-            finally
-            {
-                list.EndRefresh();
-            }
-
-            if (error != null)
-            {
-                await DisplayAlert("Refresh Error", "Couldn't refresh data (" + error.Message + ")", "OK");
-            }
-        }
-
     }
 }
 

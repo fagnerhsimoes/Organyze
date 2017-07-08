@@ -31,7 +31,7 @@
             </Grid>
         </StackLayout>
         <ListView x:Name="DepartamentosListView"
-				ItemSelected="OnDepartamentoSelected"
+				ItemSelected="OnSelected"
 				IsPullToRefreshEnabled="true" 
                 Refreshing="OnRefresh"
 				Grid.Row="1">
