@@ -1,12 +1,11 @@
 ﻿using Organyze.Interfaces;
-using Organyze.Models;
 
 namespace Organyze.ViewModels
 {
     public class DepartamentoDetailViewModel : BaseViewModel
     {
-        public Departamento Departamento { get; set; }
-        public DepartamentoDetailViewModel(Departamento departamento = null)
+        public IDepartamento Departamento { get; set; }
+        public DepartamentoDetailViewModel(IDepartamento departamento = null)
         {
             Title = departamento.Nome;
             Departamento = departamento;

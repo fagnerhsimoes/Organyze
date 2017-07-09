@@ -9,14 +9,6 @@
             <StackLayout Padding="5,0,5,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                 <Label TextColor="{StaticResource DarkStateBlue}" Text="Nome:"       FontSize="Small" Margin="5"/>
                 <Entry Text="{Binding Departamento.Nome}" />
-                <Label TextColor="{StaticResource DarkStateBlue}" Text="Status:"           FontSize="Small" Margin="5"/>
-                <TableView Intent="Data">
-                    <TableRoot>
-                        <TableSection>
-                            <SwitchCell Text="Ativo" On="{Binding Departamento.Ativo}"/>
-                        </TableSection>
-                    </TableRoot>
-                </TableView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

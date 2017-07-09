@@ -7,7 +7,7 @@ namespace Organyze.Models
 {
     public class BaseDataObject : ObservableObject, IBaseDataObject
     {
-        public BaseDataObject()
+      /*  public BaseDataObject()
         {
             Id = Guid.NewGuid().ToString();
         }
@@ -31,6 +31,6 @@ namespace Organyze.Models
         /// Azure version for online/offline sync
         /// </summary>
         [Version]
-        public string Version { get; set; }
+        public string Version { get; set; }*/
     }
 }

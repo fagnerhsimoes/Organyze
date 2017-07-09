@@ -48,6 +48,7 @@
     <Compile Include="Helpers\ObservableRangeCollection.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Interfaces\IBaseDataObject.cs" />
+    <Compile Include="Interfaces\IDepartamento.cs" />
     <Compile Include="Interfaces\IProjeto.cs" />
     <Compile Include="Interfaces\ITodoItem.cs" />
     <Compile Include="MainPage.xaml.cs">

@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
+using Organyze.Interfaces;
 
 namespace Organyze.Models
 {
-    public class Departamento
+    public class Departamento: BaseDataObject, IDepartamento
     {
 
        /* private string id      { get; set; } = Guid.NewGuid().ToString();

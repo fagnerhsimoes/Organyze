@@ -30,9 +30,9 @@ namespace Organyze.Services
         {
             await InitializeAsync();
 
-            var _projeto = projetos.Where((Projeto arg) => arg.Id == projeto.Id).FirstOrDefault();
+          /*  var _projeto = projetos.Where((Projeto arg) => arg.Id == projeto.Id).FirstOrDefault();
             projetos.Remove(_projeto);
-            projetos.Add(projeto);
+            projetos.Add(projeto);*/
 
             return await Task.FromResult(true);
         }
@@ -41,8 +41,8 @@ namespace Organyze.Services
         {
             await InitializeAsync();
 
-            var _projeto = projetos.Where((Projeto arg) => arg.Id == projeto.Id).FirstOrDefault();
-            projetos.Remove(_projeto);
+           /* var _projeto = projetos.Where((Projeto arg) => arg.Id == projeto.Id).FirstOrDefault();
+            projetos.Remove(_projeto);*/
 
             return await Task.FromResult(true);
         }
@@ -51,7 +51,9 @@ namespace Organyze.Services
         {
             await InitializeAsync();
 
-            return await Task.FromResult(projetos.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(projetos.FirstOrDefault());
+
+            //  return await Task.FromResult(projetos.FirstOrDefault(s => s.Id == id));
         }
 
         public IEnumerable<Projeto> GetProjetos(bool forceRefresh = false)
@@ -77,7 +79,7 @@ namespace Organyze.Services
             if (isInitialized)
                 return;
 
-            projetos = new List<Projeto>();
+          /*  projetos = new List<Projeto>();
             var _projetos = new List<Projeto>
             {
                 new Projeto { Id = Guid.NewGuid().ToString(), Nome = "Projeto1", Descricao = Desc},
@@ -93,7 +95,7 @@ namespace Organyze.Services
             foreach (Projeto projeto in _projetos)
             {
                 projetos.Add(projeto);
-            }
+            }*/
 
             isInitialized = true;
         }

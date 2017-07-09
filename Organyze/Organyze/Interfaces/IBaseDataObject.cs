@@ -2,8 +2,8 @@
 {
     public interface IBaseDataObject
     {
-        string Id { get; }
-        string Version { get; set; }
+      /*  string Id { get; }
+        string Version { get; set; }*/
     }
 }
 

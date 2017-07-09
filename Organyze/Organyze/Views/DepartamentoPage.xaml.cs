@@ -1,171 +1,58 @@
-﻿using Organyze.Models;
-using Organyze.Services;
-using System;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Xamarin.Forms;
+using Organyze.ViewModels;
+using Organyze.Controls;
+using System.Linq;
+using Organyze.Interfaces;
+using Organyze.Models;
 
 namespace Organyze.Views
 {
     public partial class DepartamentoPage : ContentPage
     {
-        DepartamentoManager manager;
-
+        DepartamentoViewModel viewModel;
         public DepartamentoPage()
         {
             InitializeComponent();
+            BindingContext = viewModel = new DepartamentoViewModel();
 
-            manager = DepartamentoManager.DefaultManager;
-
-            if (manager.IsOfflineEnabled &&
-                (Device.OS == TargetPlatform.Windows || Device.OS == TargetPlatform.WinPhone))
-            {
-                var syncButton = new Button
-                {
-                    Text = "Sync items",
-                    HeightRequest = 30
-                };
-                syncButton.Clicked += OnSyncItems;
-
-                buttonsPanel.Children.Add(syncButton);
-            }
+            busca.TextChanged += Busca_TextChanged;
+            DepartamentosListView.ItemsSource = Listar();
         }
 
-        protected override async void OnAppearing()
+        async void OnDepartamentoSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            base.OnAppearing();
+            var departamento = args.SelectedItem as IDepartamento;
+            if (departamento == null)
+                return;
 
-            // Set syncItems to true in order to synchronize the data on startup when running in offline mode
-            await RefreshItems(true, syncItems: true);
-        }
+            await Navigation.PushAsync(new DepartamentoDetailPage(new DepartamentoDetailViewModel(departamento)));
 
-        // Data methods
-        async Task AddItem(Departamento item)
-        {
-            await manager.SaveTaskAsync(item);
-            DepartamentosListView.ItemsSource = await manager.GetTodoItemsAsync();
-        }
-
-        async Task CompleteItem(Departamento item)
-        {
-            item.Apagado = true;
-            await manager.SaveTaskAsync(item);
-            DepartamentosListView.ItemsSource = await manager.GetTodoItemsAsync();
-        }
-
-        public async void OnAdd(object sender, EventArgs e)
-        {
-            var todo = new Departamento { Nome = newItemName.Text };
-            await AddItem(todo);
-
-            newItemName.Text = string.Empty;
-            newItemName.Unfocus();
-        }
-
-        // Event handlers
-        public async void OnSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var todo = e.SelectedItem as Departamento;
-            if (Device.OS != TargetPlatform.iOS && todo != null)
-            {
-                // Not iOS - the swipe-to-delete is discoverable there
-                if (Device.OS == TargetPlatform.Android)
-                {
-                    await DisplayAlert(todo.Nome, "Press-and-hold to complete task " + todo.Nome, "Got it!");
-                }
-                else
-                {
-                    // Windows, not all platforms support the Context Actions yet
-                    if (await DisplayAlert("Mark completed?", "Do you wish to complete " + todo.Nome + "?", "Complete", "Cancel"))
-                    {
-                        await CompleteItem(todo);
-                    }
-                }
-            }
-
-            // prevents background getting highlighted
             DepartamentosListView.SelectedItem = null;
         }
 
-        // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#context
-        public async void OnComplete(object sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            var mi = ((MenuItem)sender);
-            var todo = mi.CommandParameter as Departamento;
-            await CompleteItem(todo);
+            base.OnAppearing();
+            viewModel.LoadDepartamentosCommand.Execute(null);
+            DepartamentosListView.ItemsSource = Listar(busca.Text);
         }
 
-        // http://developer.xamarin.com/guides/cross-platform/xamarin-forms/working-with/listview/#pulltorefresh
-        public async void OnRefresh(object sender, EventArgs e)
+        private void Busca_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var list = (ListView)sender;
-            Exception error = null;
-            try
-            {
-                await RefreshItems(false, true);
-            }
-            catch (Exception ex)
-            {
-                error = ex;
-            }
-            finally
-            {
-                list.EndRefresh();
-            }
-
-            if (error != null)
-            {
-                await DisplayAlert("Refresh Error", "Couldn't refresh data (" + error.Message + ")", "OK");
-            }
+            DepartamentosListView.ItemsSource = Listar(busca.Text);
         }
 
-        public async void OnSyncItems(object sender, EventArgs e)
+        public IEnumerable<Group<char, IDepartamento>> Listar(string filtro = "")
         {
-            await RefreshItems(true, true);
-        }
+            IEnumerable<IDepartamento> departamentosFiltrados = viewModel.Departamentos;
+            if (!string.IsNullOrEmpty(filtro))
+                departamentosFiltrados = viewModel.Departamentos.Where(l => (l.Nome.ToLower().Contains(filtro.ToLower())));
 
-        private async Task RefreshItems(bool showActivityIndicator, bool syncItems)
-        {
-            using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
-            {
-                DepartamentosListView.ItemsSource = await manager.GetTodoItemsAsync(syncItems);
-            }
-        }
-
-        private class ActivityIndicatorScope : IDisposable
-        {
-            private bool showIndicator;
-            private ActivityIndicator indicator;
-            private Task indicatorDelay;
-
-            public ActivityIndicatorScope(ActivityIndicator indicator, bool showIndicator)
-            {
-                this.indicator = indicator;
-                this.showIndicator = showIndicator;
-
-                if (showIndicator)
-                {
-                    indicatorDelay = Task.Delay(2000);
-                    SetIndicatorActivity(true);
-                }
-                else
-                {
-                    indicatorDelay = Task.FromResult(0);
-                }
-            }
-
-            private void SetIndicatorActivity(bool isActive)
-            {
-                this.indicator.IsVisible = isActive;
-                this.indicator.IsRunning = isActive;
-            }
-
-            public void Dispose()
-            {
-                if (showIndicator)
-                {
-                    indicatorDelay.ContinueWith(t => SetIndicatorActivity(false), TaskScheduler.FromCurrentSynchronizationContext());
-                }
-            }
+            return from departamento in departamentosFiltrados
+                   orderby departamento.Nome
+                   group departamento by departamento.Nome[0] into grupos
+                   select new Group<char, IDepartamento>(grupos.Key, grupos);
         }
     }
 }
