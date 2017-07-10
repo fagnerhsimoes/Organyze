@@ -18,6 +18,7 @@ namespace Organyze.Views
 
             busca.TextChanged += Busca_TextChanged;
             DepartamentosListView.ItemsSource = Listar();
+
         }
 
         async void OnDepartamentoSelected(object sender, SelectedItemChangedEventArgs args)

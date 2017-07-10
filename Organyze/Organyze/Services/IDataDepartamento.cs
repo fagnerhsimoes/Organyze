@@ -19,8 +19,6 @@ namespace Organyze.Services
         T GetNewDepartamentoAsync();
         DataDepartamento DefaultManager { get; }
         Task<ObservableCollection<T>> GetTodoItemsAsync(bool syncItems = false);
-        Task SaveTaskAsync(Departamento item);
-        Task<bool> SyncAsync();
-
+        Task <bool>SaveTaskAsync(Departamento item);
     }
 }

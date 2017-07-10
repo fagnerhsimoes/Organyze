@@ -118,7 +118,7 @@ namespace Organyze.Services
             return null;
         }
 
-        public async Task SaveTaskAsync(Departamento item)
+        public async Task<bool> SaveTaskAsync(Departamento item)
         {
             if (item.Id == null)
             {
@@ -128,6 +128,7 @@ namespace Organyze.Services
             {
                 await todoTable.UpdateAsync(item);
             }
+            return await Task.FromResult(true);
         }
 
 #if OFFLINE_SYNC_ENABLED
@@ -174,11 +175,7 @@ namespace Organyze.Services
                 }
             }
         }
-#else
-        public async Task<bool> SyncAsync()
-        {
-            return await Task.FromResult(true);
-        }
+
 #endif
 
     }
