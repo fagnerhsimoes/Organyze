@@ -7,21 +7,15 @@ namespace Organyze.Models
 {
     public class Departamento: BaseDataObject, IDepartamento
     {
-
-       /* private string id      { get; set; } = Guid.NewGuid().ToString();
-        private string nome    { get; set; }
-        private bool   apagado { get; set; }*/
-
-        string id;
         string nome;
         bool   apagado;
 
-        [JsonProperty(PropertyName = "id")]
+      /*  [JsonProperty(PropertyName = "id")]
         public string Id
         {
             get { return id; }
             set { id = value; }
-        }
+        }*/
 
         [JsonProperty(PropertyName = "nome")]
         public string Nome
@@ -37,8 +31,8 @@ namespace Organyze.Models
             set { apagado = value; }
         }
 
-        [Version]
-        public string Version { get; set; }
+       /*[Version]
+        public string Version { get; set; }*/
     }
 }
 

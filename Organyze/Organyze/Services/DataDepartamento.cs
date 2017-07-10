@@ -18,17 +18,23 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Organyze.Models;
 using Organyze.Helpers;
+using Xamarin.Forms;
+using Organyze.Services;
+using Organyze.Interfaces;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 #endif
 
-namespace Organyze
+[assembly: Dependency(typeof(Organyze.Services.DataDepartamento))]
+[assembly: Dependency(typeof(Organyze.ViewModels.Services.IMessageService))]
+[assembly: Dependency(typeof(Organyze.ViewModels.Services.INavigationService))]
+namespace Organyze.Services
 {
-    public partial class DepartamentoManager
+    public class DataDepartamento : IDataDepartamento<IDepartamento>
     {
-        static DepartamentoManager defaultInstance = new DepartamentoManager();
+        static DataDepartamento defaultInstance = new DataDepartamento();
         MobileServiceClient client;
 
 #if OFFLINE_SYNC_ENABLED
@@ -39,7 +45,8 @@ namespace Organyze
 
         const string offlineDbPath = @"localstore.db";
 
-        private DepartamentoManager()
+        public Departamento Departamento { get; set; }
+        public DataDepartamento()
         {
             this.client = new MobileServiceClient(Constants.ApplicationURL);
 
@@ -56,7 +63,7 @@ namespace Organyze
 #endif
         }
 
-        public static DepartamentoManager DefaultManager
+        public DataDepartamento DefaultManager
         {
             get
             {
@@ -66,6 +73,12 @@ namespace Organyze
             {
                 defaultInstance = value;
             }
+        }
+
+        public IDepartamento GetNewDepartamentoAsync()
+        {
+            Departamento = new Departamento();
+            return Departamento;
         }
 
         public MobileServiceClient CurrentClient
@@ -78,7 +91,7 @@ namespace Organyze
             get { return todoTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<Departamento>; }
         }
 
-        public async Task<ObservableCollection<Departamento>> GetTodoItemsAsync(bool syncItems = false)
+        public async Task<ObservableCollection<IDepartamento>> GetTodoItemsAsync(bool syncItems = false)
         {
             try
             {
@@ -92,7 +105,7 @@ namespace Organyze
                     .Where(todoItem => !todoItem.Apagado)
                     .ToEnumerableAsync();
 
-                return new ObservableCollection<Departamento>(items);
+                return new ObservableCollection<IDepartamento>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -161,6 +174,13 @@ namespace Organyze
                 }
             }
         }
+#else
+        public async Task<bool> SyncAsync()
+        {
+            return await Task.FromResult(true);
+        }
 #endif
+
     }
+
 }

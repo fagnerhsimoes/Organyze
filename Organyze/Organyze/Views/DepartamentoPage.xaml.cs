@@ -22,7 +22,7 @@ namespace Organyze.Views
 
         async void OnDepartamentoSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var departamento = args.SelectedItem as IDepartamento;
+            var departamento = args.SelectedItem as Departamento;
             if (departamento == null)
                 return;
 

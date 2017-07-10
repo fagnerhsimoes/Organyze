@@ -10,7 +10,7 @@ namespace Organyze.ViewModels
 {
     public class DepartamentoViewModel : BaseViewModel
     {
-        DepartamentoManager manager;
+        //DepartamentoManager manager;
 
         public ObservableRangeCollection<IDepartamento> Departamentos { get; set; }
         public Command LoadDepartamentosCommand { get; set; }
@@ -19,7 +19,7 @@ namespace Organyze.ViewModels
         private readonly Services.INavigationService _navigationService;
         public DepartamentoViewModel()
         {
-            manager = DepartamentoManager.DefaultManager;
+           // manager = new DepartamentoManager();
 
 
             Title = "Departamentos";
@@ -52,9 +52,15 @@ namespace Organyze.ViewModels
             try
             {
                 Departamentos.Clear();
-                var departamentos = await manager.GetTodoItemsAsync();
-                //   var departamentos = DataDepartamento.GetDepartamentos();
+                var departamentos = await DataDepartamento.GetTodoItemsAsync(true);
                 Departamentos.ReplaceRange(departamentos);
+
+                /*  foreach (IDepartamento depart in departamentos)
+                  {
+                      Departamentos.Add(depart);
+                  }*/
+
+
             }
             catch (Exception ex)
             {

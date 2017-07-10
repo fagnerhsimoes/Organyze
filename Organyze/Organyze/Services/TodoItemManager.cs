@@ -16,7 +16,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-using Organyze.Models;
 using Organyze.Helpers;
 
 #if OFFLINE_SYNC_ENABLED
@@ -24,7 +23,7 @@ using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 #endif
 
-namespace Organyze.Services
+namespace Organyze
 {
     public partial class TodoItemManager
     {

@@ -15,6 +15,7 @@ namespace Organyze.Views
         public NewDepartamentoPage()
         {
             InitializeComponent();
+            BindingContext = new ViewModels.NewDepartamentoViewModel();
         }
     }
 }

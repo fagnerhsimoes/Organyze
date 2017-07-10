@@ -4,6 +4,9 @@
              x:Class="Organyze.Views.DepartamentoDetailPage"
              xmlns:control="clr-namespace:Organyze.Controls;assembly=Organyze"
              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salvar" Command="{Binding SalvarCommand}" Order="Secondary" Priority="1"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="5,0,5,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
