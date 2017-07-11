@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Organyze.Interfaces;
 
 namespace Organyze.Models
 {
-    public class User : BaseDataObject
+    public class User : BaseDataObject, IUser
     {
         [JsonProperty("userid")]
         public string UserId { get; set; }
