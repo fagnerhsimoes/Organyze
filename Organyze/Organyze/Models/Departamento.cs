@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Organyze.Interfaces;
 
 namespace Organyze.Models
@@ -9,13 +7,6 @@ namespace Organyze.Models
     {
         string nome;
         bool   apagado;
-
-      /*  [JsonProperty(PropertyName = "id")]
-        public string Id
-        {
-            get { return id; }
-            set { id = value; }
-        }*/
 
         [JsonProperty(PropertyName = "nome")]
         public string Nome
@@ -30,9 +21,6 @@ namespace Organyze.Models
             get { return apagado; }
             set { apagado = value; }
         }
-
-       /*[Version]
-        public string Version { get; set; }*/
     }
 }
 

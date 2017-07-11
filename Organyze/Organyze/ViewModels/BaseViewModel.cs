@@ -1,8 +1,8 @@
-﻿using Organyze.Models;
-using Organyze.Services;
-using Organyze.Helpers;
-using Xamarin.Forms;
+﻿using Organyze.Helpers;
 using Organyze.Interfaces;
+using Organyze.Models;
+using Organyze.Services;
+using Xamarin.Forms;
 
 namespace Organyze.ViewModels
 {

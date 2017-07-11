@@ -8,16 +8,12 @@ namespace Organyze.Models
 {
     public class BaseDataObject : ObservableObject, IBaseDataObject
     {
-        public BaseDataObject()
-        {
+         public BaseDataObject()
+         {
             //Id = Guid.NewGuid().ToString();
-        }
+         }
 
-
-        string         id;
-        //DateTimeOffset createdAt;
-        //DateTimeOffset updatedAt;
-        //string         version;
+         string id;
 
          [JsonProperty(PropertyName = "id")]
          public string Id
@@ -27,10 +23,10 @@ namespace Organyze.Models
          }
 
         public DateTimeOffset CreatedAt { get; set; }
-
         public DateTimeOffset UpdatedAt { get; set; }
+        public bool           Sinc      { get; set; }
 
         [Version]
-        public string Version { get; set; }
+        public string         Version   { get; set; }
     }
 }
