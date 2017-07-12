@@ -5,6 +5,9 @@ using Organyze.Controls;
 using System.Linq;
 using Organyze.Interfaces;
 using Organyze.Models;
+using System;
+using System.Threading.Tasks;
+
 
 namespace Organyze.Views
 {
@@ -32,11 +35,85 @@ namespace Organyze.Views
             DepartamentosListView.SelectedItem = null;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             viewModel.LoadDepartamentosCommand.Execute(null);
             DepartamentosListView.ItemsSource = Listar(busca.Text);
+            await RefreshItems(true, syncItems: true);
+        }
+
+        public async void OnSyncItems(object sender, EventArgs e)
+        {
+            await RefreshItems(true, true);
+        }
+
+        private async Task RefreshItems(bool showActivityIndicator, bool syncItems)
+        {
+            using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
+            {
+                DepartamentosListView.ItemsSource = await viewModel.DataDepartamento.GetTodoItemsAsync(syncItems);
+            }
+        }
+
+        public async void OnRefresh(object sender, EventArgs e)
+        {
+            var list = (ListView)sender;
+            Exception error = null;
+            try
+            {
+                await RefreshItems(false, true);
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            finally
+            {
+                list.EndRefresh();
+            }
+
+            if (error != null)
+            {
+                await viewModel._messageService.ShowAsync("Não foi possível atualizar os dados");
+            }
+        }
+
+        private class ActivityIndicatorScope : IDisposable
+        {
+            private bool showIndicator;
+            private ActivityIndicator indicator;
+            private Task indicatorDelay;
+
+            public ActivityIndicatorScope(ActivityIndicator indicator, bool showIndicator)
+            {
+                this.indicator = indicator;
+                this.showIndicator = showIndicator;
+
+                if (showIndicator)
+                {
+                    indicatorDelay = Task.Delay(2000);
+                    SetIndicatorActivity(true);
+                }
+                else
+                {
+                    indicatorDelay = Task.FromResult(0);
+                }
+            }
+
+            private void SetIndicatorActivity(bool isActive)
+            {
+                this.indicator.IsVisible = isActive;
+                this.indicator.IsRunning = isActive;
+            }
+
+            public void Dispose()
+            {
+                if (showIndicator)
+                {
+                    indicatorDelay.ContinueWith(t => SetIndicatorActivity(false), TaskScheduler.FromCurrentSynchronizationContext());
+                }
+            }
         }
 
         private void Busca_TextChanged(object sender, TextChangedEventArgs e)

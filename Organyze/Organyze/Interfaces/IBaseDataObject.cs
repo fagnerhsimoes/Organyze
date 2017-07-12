@@ -8,6 +8,7 @@ namespace Organyze.Interfaces
         DateTimeOffset CreatedAt { get; set; }
         DateTimeOffset UpdatedAt { get; set; }
         string         Version   { get; set; }
+        bool           Apagado   { get; set; }
     }
 }
 

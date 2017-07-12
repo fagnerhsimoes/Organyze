@@ -25,6 +25,7 @@ namespace Organyze.Models
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public bool           Sinc      { get; set; }
+        public bool           Apagado   { get; set; }
 
         [Version]
         public string         Version   { get; set; }

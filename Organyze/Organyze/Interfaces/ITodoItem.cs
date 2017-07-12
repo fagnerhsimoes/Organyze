@@ -4,6 +4,5 @@
     {
         string Name    { get; set; }
         bool   Done    { get; set; }
-        //string Version { get; set; }
     }
 }

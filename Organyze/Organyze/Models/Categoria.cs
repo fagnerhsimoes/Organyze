@@ -3,9 +3,10 @@ using Organyze.Interfaces;
 
 namespace Organyze.Models
 {
-    public class Departamento: BaseDataObject, IDepartamento
+    public class Categoria : BaseDataObject, ICategoria
     {
         string nome = string.Empty;
+
 
         [JsonProperty(PropertyName = "nome")]
         public string Nome
@@ -15,4 +16,3 @@ namespace Organyze.Models
         }
     }
 }
-

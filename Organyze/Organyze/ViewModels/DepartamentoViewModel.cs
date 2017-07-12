@@ -10,18 +10,13 @@ namespace Organyze.ViewModels
 {
     public class DepartamentoViewModel : BaseViewModel
     {
-        //DepartamentoManager manager;
-
         public ObservableRangeCollection<IDepartamento> Departamentos { get; set; }
         public Command LoadDepartamentosCommand { get; set; }
 
-        private readonly Services.IMessageService _messageService;
+        public readonly Services.IMessageService _messageService;
         private readonly Services.INavigationService _navigationService;
         public DepartamentoViewModel()
         {
-           // manager = new DepartamentoManager();
-
-
             Title = "Departamentos";
             Departamentos = new ObservableRangeCollection<IDepartamento>();
             LoadDepartamentosCommand = new Command(async () => await ExecuteLoadDepartamentosCommand());

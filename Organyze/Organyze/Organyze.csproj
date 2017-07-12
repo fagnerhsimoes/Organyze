@@ -48,7 +48,12 @@
     <Compile Include="Helpers\ObservableRangeCollection.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Interfaces\IBaseDataObject.cs" />
+    <Compile Include="Interfaces\ICategoria.cs" />
+    <Compile Include="Interfaces\ICliente.cs" />
     <Compile Include="Interfaces\IDepartamento.cs" />
+    <Compile Include="Interfaces\IFuncionario.cs" />
+    <Compile Include="Interfaces\IItem.cs" />
+    <Compile Include="Interfaces\IOrdemServico.cs" />
     <Compile Include="Interfaces\IProjeto.cs" />
     <Compile Include="Interfaces\ITodoItem.cs" />
     <Compile Include="Interfaces\IUser.cs" />
@@ -57,7 +62,12 @@
     </Compile>
     <Compile Include="Methods\IMethods.cs" />
     <Compile Include="Models\BaseDataObject.cs" />
+    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Departamento.cs" />
+    <Compile Include="Models\Funcionario.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\OrdemServico.cs" />
     <Compile Include="Models\Projeto.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Models\User.cs" />
