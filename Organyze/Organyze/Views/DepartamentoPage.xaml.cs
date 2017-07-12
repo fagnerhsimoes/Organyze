@@ -21,7 +21,6 @@ namespace Organyze.Views
 
             busca.TextChanged += Busca_TextChanged;
             DepartamentosListView.ItemsSource = Listar();
-
         }
 
         async void OnDepartamentoSelected(object sender, SelectedItemChangedEventArgs args)
@@ -39,13 +38,13 @@ namespace Organyze.Views
         {
             base.OnAppearing();
             viewModel.LoadDepartamentosCommand.Execute(null);
-            DepartamentosListView.ItemsSource = Listar(busca.Text);
-            await RefreshItems(true, syncItems: true);
+            //DepartamentosListView.ItemsSource = Listar(busca.Text);
+            await RefreshItems(false, syncItems: true);
         }
 
         public async void OnSyncItems(object sender, EventArgs e)
         {
-            await RefreshItems(true, true);
+            await RefreshItems(false, true);
         }
 
         private async Task RefreshItems(bool showActivityIndicator, bool syncItems)
@@ -53,6 +52,7 @@ namespace Organyze.Views
             using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
             {
                 DepartamentosListView.ItemsSource = await viewModel.DataDepartamento.GetTodoItemsAsync(syncItems);
+                DepartamentosListView.ItemsSource = Listar();
             }
         }
 

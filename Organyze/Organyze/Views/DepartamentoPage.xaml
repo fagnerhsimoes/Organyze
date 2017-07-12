@@ -29,11 +29,9 @@
                    GroupShortNameBinding="{Binding Key}"
                    VerticalOptions="FillAndExpand"
                    HasUnevenRows="true"
-                   RefreshCommand="{Binding LoadDepartamentosCommand}"
                    Refreshing="OnRefresh"
 				   Grid.Row="1"
                    IsPullToRefreshEnabled="true"
-                   IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                    ItemSelected="OnDepartamentoSelected">>
                     <ListView.ItemTemplate>
                         <DataTemplate>
