@@ -86,7 +86,7 @@ namespace Organyze.Views.Services
 
         public async Task NavigationToCategoriaPage()
         {
-      //      await App.NavigationMasterDetail(new CategoriaPage());
+            await App.NavigationMasterDetail(new CategoriaPage());
         }
 
         public async Task NavigationToNewCategoria()
