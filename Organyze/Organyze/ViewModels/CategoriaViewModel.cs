@@ -21,12 +21,6 @@ namespace Organyze.ViewModels
 
         public override async Task LoadAsync()
         {
-            /*  Categorias.Clear();
-              var categorias = await DataCategoria.GetTagsAsync();
-              Categorias.ReplaceRange(categorias);
-
-              OnPropertyChanged(nameof(Categorias));*/
-
             if (IsBusy)
                 return;
 
