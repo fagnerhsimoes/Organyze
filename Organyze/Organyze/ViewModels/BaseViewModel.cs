@@ -2,6 +2,7 @@
 using Organyze.Interfaces;
 using Organyze.Models;
 using Organyze.Services;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Organyze.ViewModels
@@ -14,7 +15,7 @@ namespace Organyze.ViewModels
          public IDataOrdemServico<IOrdemServico> DataOrdemServico => DependencyService.Get<IDataOrdemServico<IOrdemServico>>();
          public IDataCategoria<ICategoria> ApiCategoria => DependencyService.Get<IDataCategoria<ICategoria>>();
          public IDataDepartamento<IDepartamento> DataDepartamento => DependencyService.Get<IDataDepartamento<IDepartamento>>();*/
-        public IDataCategoria<ICategoria>       DataCategoria    => DependencyService.Get<IDataCategoria<ICategoria>>();
+        public IDataCategoria<Categoria>        DataCategoria    => DependencyService.Get<IDataCategoria<Categoria>>();
         public IDataDepartamento<IDepartamento> DataDepartamento => DependencyService.Get<IDataDepartamento<IDepartamento>>();
         public IDataProjeto<Projeto>            DataProjeto      => DependencyService.Get<IDataProjeto<Projeto>>();
 
@@ -30,6 +31,11 @@ namespace Organyze.ViewModels
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        public virtual Task LoadAsync()
+        {
+            return Task.FromResult(0);
         }
     }
 }

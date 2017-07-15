@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Organyze.ViewModels;
-using Organyze.Controls;
-using System.Linq;
-using Organyze.Interfaces;
+using Organyze.Models;
 
 namespace Organyze.Views
 {
@@ -14,14 +11,11 @@ namespace Organyze.Views
         {
             InitializeComponent();
             BindingContext = viewModel = new CategoriaViewModel();
-
-            busca.TextChanged += Busca_TextChanged;
-            CategoriaListView.ItemsSource = Listar();
         }
 
         async void OnCategoriaSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var categoria = args.SelectedItem as ICategoria;
+            var categoria = args.SelectedItem as Categoria;
             if (categoria == null)
                 return;
 
@@ -33,26 +27,11 @@ namespace Organyze.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.LoadCategoriasCommand.Execute(null);
-            CategoriaListView.ItemsSource = Listar(busca.Text);
+
+            if (viewModel.Categorias.Count == 0)
+                viewModel.LoadAsync();
         }
 
-        private void Busca_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CategoriaListView.ItemsSource = Listar(busca.Text);
-        }
-
-        public IEnumerable<Group<char, ICategoria>> Listar(string filtro = "")
-        {
-            IEnumerable<ICategoria> categoriasFiltrados = viewModel.Categorias;
-            if (!string.IsNullOrEmpty(filtro))
-                categoriasFiltrados = viewModel.Categorias.Where(l => (l.Nome.ToLower().Contains(filtro.ToLower())));
-
-            return from categoria in categoriasFiltrados
-                   orderby categoria.Nome
-                   group categoria by categoria.Nome[0] into grupos
-                   select new Group<char, ICategoria>(grupos.Key, grupos);
-        }
     }
 }
 

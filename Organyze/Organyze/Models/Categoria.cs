@@ -1,18 +1,14 @@
-﻿using Newtonsoft.Json;
-using Organyze.Interfaces;
-
-namespace Organyze.Models
+﻿namespace Organyze.Models
 {
-    public class Categoria : BaseDataObject, ICategoria
+    public class Categoria : BaseDataObject
     {
-        string nome = string.Empty;
-
-
-        [JsonProperty(PropertyName = "nome")]
-        public string Nome
-        {
-            get { return nome; }
-            set { SetProperty(ref nome, value); }
-        }
+        public int    Id           { get; set; }
+        public string Nome         { get; set; }
+        public string Apagado      { get; set; }
+        public string Sincronizado { get; set; }
+        public string Ativo        { get; set; }
     }
+
 }
+
+
